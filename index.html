@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="وِزنة">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>وِزنة — مساعدك المالي</title>
+<title>وِزنة — مساعدك المالي V35</title>
 
 <style>
 :root{
@@ -1405,32 +1405,216 @@ button{touch-action:manipulation}
 }
 </style>
 
-<style id="wiznah-clean-overrides">
-/* Wiznah Clean Edition: calm hierarchy, compact cards, no image distortion */
-:root{--clean-radius:20px}
-.screen{animation:cleanFade .18s ease-out}
-@keyframes cleanFade{from{opacity:.7;transform:translateY(3px)}to{opacity:1;transform:none}}
-.card{border-radius:var(--clean-radius)}
-.safe-card{padding:18px}
-.safe-number{font-size:clamp(36px,10vw,52px);letter-spacing:-1.8px}
-.safe-meta{gap:6px;flex-wrap:wrap}
-.money-flow-card{padding:15px}
-.companion-card{padding:16px;margin-top:10px;background:linear-gradient(145deg,rgba(139,92,246,.14),rgba(255,255,255,.025));border:1px solid rgba(139,92,246,.22);box-shadow:0 12px 30px rgba(0,0,0,.14)}
-.companion-top{display:flex;align-items:center;gap:11px}
-.companion-avatar{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:rgba(139,92,246,.18);font-size:20px}
-.companion-title{font-weight:950;font-size:15px}
-.companion-sub{color:var(--muted);font-size:11px;margin-top:2px}
-.companion-message{font-size:14px;font-weight:800;line-height:1.75;margin-top:13px}
-.companion-actions{display:flex;gap:7px;overflow:auto;padding-top:12px;scrollbar-width:none}
-.companion-actions::-webkit-scrollbar{display:none}
-.companion-chip{border:1px solid var(--border);background:rgba(255,255,255,.045);color:var(--text);border-radius:999px;padding:8px 11px;white-space:nowrap;font:inherit;font-size:11px;font-weight:800}
-.quick-actions-home .btn{border-radius:15px;font-weight:900}
-.section-head{margin-top:18px}
-.bottom-nav{backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
-.sms-card{overflow:hidden}
-.sms-card img{display:block;width:100%;height:auto;max-height:280px;object-fit:contain;border-radius:16px}
-.sms-visual-step img{height:220px;object-fit:contain!important;background:rgba(255,255,255,.03)}
-.sms-flow{max-height:240px!important;object-fit:contain!important}
+<style>
+/* =========================
+   WIZNAH FINAL — LIVING MOBILE UI
+   Visual-only layer: keeps V37 logic intact.
+========================= */
+:root{
+  --bg:#08090f;
+  --surface:#11131c;
+  --surface2:#171925;
+  --surface3:#202333;
+  --text:#fbfbff;
+  --muted:#9699aa;
+  --purple:#8b5cf6;
+  --purple2:#b79cff;
+  --green:#3fe0aa;
+  --yellow:#ffd166;
+  --red:#ff718d;
+  --blue:#65b7ff;
+  --border:rgba(255,255,255,.065);
+  --shadow:0 18px 55px rgba(0,0,0,.30);
+}
+
+body{background:#08090f;}
+.app{
+  background:
+    radial-gradient(500px 320px at 92% -4%,rgba(139,92,246,.20),transparent 68%),
+    radial-gradient(420px 300px at -10% 48%,rgba(52,211,153,.075),transparent 70%),
+    linear-gradient(180deg,#090a11 0%,#08090f 100%);
+}
+.app::before{
+  content:"";
+  position:absolute;
+  width:190px;height:190px;
+  right:-85px;top:155px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(139,92,246,.13),transparent 68%);
+  filter:blur(4px);
+  pointer-events:none;
+  animation:wzFloat 8s ease-in-out infinite;
+  z-index:0;
+}
+.app::after{
+  content:"";
+  position:absolute;
+  width:150px;height:150px;
+  left:-75px;bottom:170px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(63,224,170,.08),transparent 70%);
+  pointer-events:none;
+  animation:wzFloat2 10s ease-in-out infinite;
+  z-index:0;
+}
+@keyframes wzFloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-12px,16px,0)}}
+@keyframes wzFloat2{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(12px,-10px,0)}}
+
+.page,.home-scroll,.bottom-nav{z-index:1;}
+.card{
+  border-radius:26px;
+  border-color:rgba(255,255,255,.07);
+  background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.022));
+  box-shadow:0 14px 42px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.025);
+  backdrop-filter:blur(16px);
+}
+
+#home .home-scroll{padding:10px 15px 118px;}
+#home .greeting{
+  padding:6px 3px 8px;
+  margin-bottom:8px;
+}
+#greetingSmall{font-size:12px;color:#a7a9b8;letter-spacing:.1px;}
+#greetingName{font-size:24px;letter-spacing:-.65px;line-height:1.15;margin-top:3px;}
+.home-settings{
+  width:42px;height:42px;border-radius:15px;
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.06);
+  box-shadow:0 10px 25px rgba(0,0,0,.18);
+  transition:transform .2s ease,background .2s ease;
+}
+.home-settings:active{transform:scale(.92) rotate(-8deg);background:rgba(139,92,246,.16);}
+
+.safe-card{
+  min-height:238px;
+  padding:21px;
+  border-radius:30px;
+  border:1px solid rgba(183,156,255,.16);
+  background:
+    radial-gradient(180px 120px at 100% 0%,rgba(183,156,255,.28),transparent 72%),
+    radial-gradient(180px 140px at 0% 100%,rgba(63,224,170,.10),transparent 72%),
+    linear-gradient(145deg,#191529,#0f1119 75%);
+  box-shadow:0 22px 65px rgba(78,44,145,.19),inset 0 1px 0 rgba(255,255,255,.045);
+  animation:wzCardIn .45s ease both;
+}
+.safe-card::after{
+  content:"";
+  position:absolute;
+  width:120px;height:120px;
+  top:-50px;right:-40px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.07);
+  box-shadow:0 0 0 18px rgba(255,255,255,.012),0 0 0 36px rgba(255,255,255,.008);
+  pointer-events:none;
+}
+.safe-label{font-size:12px;color:#b8b4c5;}
+.safe-number{
+  font-size:42px;
+  line-height:1.05;
+  letter-spacing:-1.7px;
+  margin-top:9px;
+  text-shadow:0 5px 25px rgba(139,92,246,.18);
+}
+.safe-number span:last-child{font-size:14px;margin-right:3px;}
+.safe-meta{gap:7px;margin-top:15px;}
+.pill{
+  padding:7px 10px;
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.045);
+  color:#d2d0da;
+  backdrop-filter:blur(10px);
+}
+.insight{
+  margin-top:14px;
+  padding:12px 13px;
+  border-radius:18px;
+  background:rgba(139,92,246,.085);
+  border-color:rgba(183,156,255,.13);
+}
+.insight-icon{width:30px;height:30px;border-radius:11px;background:rgba(139,92,246,.14);display:flex;align-items:center;justify-content:center;font-size:17px;}
+.insight-text{font-size:11.5px;line-height:1.6;}
+
+.quick-actions-home{margin-top:10px!important;gap:9px!important;}
+.quick-actions-home .btn{
+  min-height:52px!important;
+  border-radius:18px;
+  font-size:13px;
+  border:1px solid rgba(255,255,255,.055);
+  box-shadow:0 10px 26px rgba(0,0,0,.16);
+}
+.quick-actions-home .btn-primary{background:linear-gradient(135deg,#9a6bff,#7041e4);box-shadow:0 13px 32px rgba(139,92,246,.25);}
+.quick-actions-home .btn-secondary{background:rgba(255,255,255,.055);}
+
+.money-flow-card{padding:17px;margin-top:10px;border-radius:24px;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(139,92,246,.045));}
+.money-flow-item{border-radius:18px;background:rgba(255,255,255,.032);border-color:rgba(255,255,255,.045);transition:transform .2s ease,background .2s ease;}
+.money-flow-item:active{transform:scale(.985);background:rgba(255,255,255,.05);}
+.money-flow-track{height:8px;background:rgba(255,255,255,.07);}
+.money-flow-fill{background:linear-gradient(90deg,#8b5cf6,#b79cff,#3fe0aa);box-shadow:0 0 16px rgba(139,92,246,.25);}
+
+.home-grid{gap:9px;margin-top:10px;}
+.mini-card{min-height:98px;padding:16px;border-radius:22px;}
+.mini-value{font-size:23px;letter-spacing:-.5px;}
+.home-commitments-card{margin-top:10px!important;padding:15px;border-radius:23px;transition:transform .2s ease,background .2s ease;}
+.home-commitments-card:active{transform:scale(.985);}
+.home-commitment-icon{background:rgba(139,92,246,.12);border:1px solid rgba(183,156,255,.10);}
+
+.score-card{padding:16px;border-radius:23px;margin-top:10px!important;background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(139,92,246,.045));}
+.score-ring{width:64px;height:64px;background:conic-gradient(#9b70ff var(--score,70%),rgba(255,255,255,.07) 0);box-shadow:0 0 28px rgba(139,92,246,.13);}
+.score-ring::after{background:#15151f;}
+
+.section-head{margin:16px 3px 8px;}
+.section-head strong{font-size:14px;letter-spacing:-.15px;}
+.envelopes{gap:10px;padding-bottom:2px;}
+.envelope{min-width:145px;padding:14px;border-radius:21px;background:rgba(255,255,255,.035);transition:transform .2s ease;}
+.envelope:active{transform:scale(.98);}
+
+.goal-mini{padding:14px 15px;border-radius:22px;}
+.goal-icon{width:45px;height:45px;border-radius:16px;background:rgba(139,92,246,.12);border:1px solid rgba(183,156,255,.10);}
+.ask-card{margin-top:10px;padding:15px 16px;border-radius:24px;background:linear-gradient(135deg,rgba(139,92,246,.17),rgba(63,224,170,.035));border-color:rgba(183,156,255,.14);box-shadow:0 16px 40px rgba(56,30,110,.15);}
+.ask-icon{width:46px;height:46px;border-radius:16px;background:linear-gradient(135deg,#9b70ff,#6d42dc);box-shadow:0 10px 25px rgba(139,92,246,.24);}
+
+/* Give the pulse card a personality instead of a dashboard look. */
+.wiz-pulse{
+  position:relative;
+  overflow:hidden;
+  border-radius:24px!important;
+  border-color:rgba(63,224,170,.10)!important;
+}
+.wiz-pulse::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.035) 48%,transparent 75%);
+  transform:translateX(-100%);
+  animation:wzShine 5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes wzShine{0%,55%{transform:translateX(-100%)}75%,100%{transform:translateX(100%)}}
+@keyframes wzCardIn{from{opacity:.5;transform:translateY(8px) scale(.99)}to{opacity:1;transform:none}}
+
+.bottom-nav{
+  left:10px;right:10px;bottom:10px;
+  height:66px;
+  padding:7px;
+  border:1px solid rgba(255,255,255,.075);
+  border-radius:23px;
+  background:rgba(14,15,22,.86);
+  box-shadow:0 18px 45px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.035);
+  backdrop-filter:blur(26px) saturate(140%);
+}
+.nav-btn{border-radius:18px;gap:3px;font-size:17px;transition:transform .18s ease,background .2s ease,color .2s ease;}
+.nav-btn:active{transform:scale(.92);}
+.nav-btn.active{background:linear-gradient(180deg,rgba(139,92,246,.20),rgba(139,92,246,.10));color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);}
+.nav-btn span{font-size:9px;letter-spacing:.05px;}
+
+/* Other screens inherit the same calmer app language. */
+.page-header{padding:19px 18px 11px;}
+.page-title{font-size:27px;letter-spacing:-.65px;}
+.btn{border-radius:18px;}
+.input{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.075);}
+.row-card{border-radius:22px!important;background:rgba(255,255,255,.038)!important;}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;}
+}
 </style>
 </head>
 
@@ -1520,22 +1704,6 @@ button{touch-action:manipulation}
         <div class="quick-actions-home" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
           <button type="button" class="btn btn-primary" style="min-height:44px" data-action="quick-expense">＋ تسجيل مصروف</button>
           <button type="button" class="btn btn-secondary" style="min-height:44px" data-action="purchase-check">🛍️ أقدر أشتري؟</button>
-        </div>
-
-        <div class="card companion-card" id="companionCard" aria-live="polite">
-          <div class="companion-top">
-            <div class="companion-avatar">✦</div>
-            <div>
-              <div class="companion-title">وِزنة معك اليوم</div>
-              <div class="companion-sub" id="companionSub">أعطيك الزبدة بدون ما تتعب مع الأرقام.</div>
-            </div>
-          </div>
-          <div class="companion-message" id="companionMessage">أدخل راتبك والتزاماتك، وأنا أرتب لك الصورة.</div>
-          <div class="companion-actions">
-            <button type="button" class="companion-chip" data-action="quick-expense">+ مصروف</button>
-            <button type="button" class="companion-chip" data-action="purchase-check">أقدر أشتري؟</button>
-            <button type="button" class="companion-chip" data-action="assistant">اسأل وِزنة</button>
-          </div>
         </div>
 
         <div class="card money-flow-card" id="moneyFlowCard">
@@ -2194,7 +2362,7 @@ button{touch-action:manipulation}
 
 <script>
 /* =========================================================
-   وِزنة — Clean Edition
+   وِزنة V35
    كل الأحداث مربوطة بـ addEventListener
    لا يوجد inline onclick
 ========================================================= */
@@ -4075,33 +4243,6 @@ function renderHomePulse(){
   el.innerHTML=`<div class="wiz-pulse-top"><div><div class="wiz-pulse-title">${title}</div><div class="wiz-pulse-sub">تحديث حي حسب حركاتك الحالية</div></div><div class="wiz-pulse-badge">${icon}</div></div><div class="wiz-pulse-main"><div class="wiz-pulse-stat"><span>صرفك اليوم</span><strong>${money(todaySpent)} <small style="font-size:9px;color:var(--muted)">ر.س</small></strong></div><div class="wiz-pulse-stat"><span>الآمن لليوم</span><strong>${money(daily)} <small style="font-size:9px;color:var(--muted)">ر.س</small></strong></div></div><div class="wiz-pulse-message">${message}</div>`;
 }
 
-function renderCompanion(){
-  const msg=document.getElementById("companionMessage");
-  const sub=document.getElementById("companionSub");
-  if(!msg||!sub) return;
-  const safe=Math.max(0,safeAvailable());
-  const daily=Math.max(0,dailySafeSpend());
-  const days=Math.max(0,daysUntilSalary());
-  const spent=Math.max(0,monthExpenses());
-  if(!state.salary){
-    sub.textContent="خلني أعرف راتبك والتزاماتك، والباقي علي.";
-    msg.textContent="ابدأ براتبك ويوم نزوله، وبعدها أعطيك رقمًا واضحًا بدل كثرة الحسابات.";
-    return;
-  }
-  if(days<=1){
-    sub.textContent="قرب موعد الراتب، خلنا نقفل الشهر بهدوء.";
-    msg.textContent=`المتاح الآمن الآن ${money(safe)} ر.س. خلك قريب من ${money(daily)} ر.س اليوم.`;
-    return;
-  }
-  if(daily<=0){
-    sub.textContent="نحتاج نهدّي الصرف شوي.";
-    msg.textContent=`المتبقي الآمن ${money(safe)} ر.س، لكن التزاماتك المحجوزة تحتاج أولوية قبل أي شراء جديد.`;
-    return;
-  }
-  sub.textContent=`باقي ${days} يوم على الراتب.`;
-  msg.textContent=`اليوم عندك تقريبًا ${money(daily)} ر.س للصرف الآمن. صرفك هذا الشهر ${money(spent)} ر.س، وأنا أراقب الصورة معك.`;
-}
-
 function renderHome(){
 
   const safeEl =
@@ -4136,7 +4277,6 @@ function renderHome(){
 
   renderMoneyFlow();
   renderHomePulse();
-  renderCompanion();
 
   const score = financialScore();
 
